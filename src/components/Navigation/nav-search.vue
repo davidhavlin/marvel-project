@@ -1,0 +1,101 @@
+<template>
+  <form @submit.prevent="searchHeroes()" class="search-container">
+    <input
+      v-model="searchValue"
+      ref="searchInput"
+      class="search-input"
+      type="text"
+      placeholder="Search your SuperHeroes.."
+    />
+    <button class="search-icon">
+      <i class="fas fa-search"></i>
+    </button>
+
+    <div class="last-searched-words">
+      <div class="word" v-for="word in lastSearchedWords" :key="word">
+        {{ word }}
+      </div>
+    </div>
+  </form>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      searchValue: ''
+    }
+  },
+  mounted() {
+    this.$refs.searchInput.focus()
+  },
+  computed: {
+    lastSearchedWords() {
+      return this.$store.state.lastSearchedWords
+    }
+  },
+  methods: {
+    searchHeroes() {
+      if (!this.searchValue) return
+      this.$store.dispatch('fetchResults', this.searchValue.trim())
+      this.$store.dispatch('fiveSearchWords', this.searchValue.trim())
+      this.searchValue = ''
+      this.$refs.searchInput.focus()
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #2c3e50;
+  border-radius: 10px;
+  padding: 0 1.3rem;
+
+  .search-input {
+    padding: 0.8rem 0;
+    font-size: 1em;
+    background: transparent;
+    color: #fff;
+    border: none;
+    outline: none;
+  }
+
+  .search-icon {
+    font-size: 1.2em;
+    margin-left: 1rem;
+    color: red;
+    height: 100%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: transparent;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  ::placeholder {
+    color: #19242e;
+  }
+
+  .last-searched-words {
+    position: absolute;
+    font-size: 0.7em;
+    display: flex;
+    bottom: -18px;
+    left: 0;
+
+    .word {
+      margin-right: 0.2rem;
+      padding: 0.1rem 0.4rem;
+      background: #ec1d24;
+      border-radius: 5px;
+    }
+  }
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <article class="home">
     <h2 v-if="!noResults()">
       Results for <i>"{{ lastWord }}"</i>
     </h2>
@@ -9,7 +9,7 @@
         No results for "{{ lastWord }}"
       </div>
     </div>
-  </div>
+  </article>
 </template>
 
 <script>

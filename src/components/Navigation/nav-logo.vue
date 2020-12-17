@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/">
+  <router-link class="marvel-link" to="/">
     <div class="marvel-logo">
       <svg width="130" height="52" xmlns="http://www.w3.org/2000/svg">
         <rect fill="#EC1D24" width="100%" height="100%"></rect>
@@ -24,5 +24,14 @@ export default {}
 <style lang="scss" scoped>
 .marvel-logo {
   display: flex;
+}
+.marvel-link {
+  transform: scale(0.7);
+  transform-origin: left;
+}
+@media (max-width: 620px) {
+  .marvel-link {
+    display: none;
+  }
 }
 </style>

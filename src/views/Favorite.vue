@@ -1,5 +1,12 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <article class="favorite"></article>
 </template>
+
+<script>
+export default {}
+</script>
+
+<style lang="scss" scoped>
+.favorite {
+}
+</style>

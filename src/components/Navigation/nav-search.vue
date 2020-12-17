@@ -56,6 +56,7 @@ export default {
   padding: 0 1.3rem;
 
   .search-input {
+    width: 100%;
     padding: 0.8rem 0;
     font-size: 1em;
     background: transparent;
@@ -67,7 +68,7 @@ export default {
   .search-icon {
     font-size: 1.2em;
     margin-left: 1rem;
-    color: red;
+    color: #ec1d24;
     height: 100%;
     border: none;
     outline: none;
@@ -80,7 +81,7 @@ export default {
   }
 
   ::placeholder {
-    color: #19242e;
+    color: #6b88a3;
   }
 
   .last-searched-words {
@@ -96,6 +97,13 @@ export default {
       background: #ec1d24;
       border-radius: 5px;
     }
+  }
+}
+
+@media (max-width: 620px) {
+  .search-container {
+    order: 2;
+    width: 100%;
   }
 }
 </style>

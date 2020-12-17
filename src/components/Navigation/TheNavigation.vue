@@ -45,4 +45,18 @@ export default {
     }
   }
 }
+
+@media (max-width: 620px) {
+  #nav {
+    .nav-container {
+      display: flex;
+      flex-direction: column;
+      //   justify-content: space-between;
+      //   align-items: center;
+      max-width: 1000px;
+      padding: 1rem 1rem;
+      flex-grow: 1;
+    }
+  }
+}
 </style>

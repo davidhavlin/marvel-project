@@ -1,17 +1,32 @@
 <template>
   <router-link
+    class="super-hero"
     :to="{
       name: 'hero-page',
       params: { id: hero.id }
     }"
   >
-    <div class="super-hero">
-      <div class="hero-image">
-        <img :src="image" alt="" />
-      </div>
+    <div class="hero-image">
+      <img :src="image" alt="" />
+    </div>
+    <div class="hero-content">
       <div class="hero-name">
         {{ hero.name }}
       </div>
+      <button
+        v-if="!isFavorite(hero)"
+        class="favorite-btn add"
+        @click.prevent="addToFavorite(hero)"
+      >
+        <i class="far fa-star"></i>
+      </button>
+      <button
+        v-if="isFavorite(hero)"
+        class="favorite-btn remove"
+        @click.prevent="removeToFavorite(hero)"
+      >
+        <i class="fas fa-ban"></i>
+      </button>
     </div>
   </router-link>
 </template>
@@ -27,6 +42,17 @@ export default {
     image() {
       return this.hero.thumbnail.path + '/standard_large.jpg'
     }
+  },
+  methods: {
+    addToFavorite(hero) {
+      this.$store.commit('pushFavorite', hero)
+    },
+    removeToFavorite(hero) {
+      this.$store.dispatch('removeFromFavorite', hero)
+    },
+    isFavorite(hero) {
+      return this.$store.state.favorite.some(item => item.id === hero.id)
+    }
   }
 }
 </script>
@@ -39,15 +65,51 @@ export default {
   cursor: pointer;
 
   .hero-image {
+    overflow: hidden;
     img {
       width: 100%;
       height: auto;
+      display: block;
+      transition: transform 0.3s ease;
     }
   }
+
+  .hero-content {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    align-items: baseline;
+  }
+
   .hero-name {
-    color: #b9d4df;
+    color: #6b88a3;
     padding: 1rem;
     text-align: left;
+  }
+
+  &:hover {
+    .hero-image {
+      img {
+        transform: scale(1.2);
+      }
+    }
+    .hero-name {
+      color: #fff;
+    }
+  }
+}
+.favorite-btn.remove {
+  color: #ffd710;
+}
+.favorite-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #10ffb2;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  &:hover {
+    color: #fff;
   }
 }
 </style>

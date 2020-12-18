@@ -25,6 +25,9 @@ body {
   background: #2c3e50;
   margin: 0;
 }
+a {
+  text-decoration: none;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -36,5 +39,9 @@ body {
 .pages {
   max-width: 1000px;
   margin: 0 auto;
+}
+.page-container {
+  padding: 3rem 1rem 6rem 1rem;
+  position: relative;
 }
 </style>

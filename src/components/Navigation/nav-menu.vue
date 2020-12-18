@@ -2,10 +2,9 @@
   <div class="menu-links">
     <router-link to="/" exact>Home</router-link>
     <router-link class="favorite-link" to="/favorite" exact
-      >Favorites<span><i class="fas fa-star"></i></span>({{
-        favoriteCounter
-      }})</router-link
-    >
+      >Favorites<span><i class="fas fa-star"></i></span
+      ><span class="counter" ref="counter">({{ favoriteCounter }}) </span>
+    </router-link>
   </div>
 </template>
 
@@ -14,6 +13,17 @@ export default {
   computed: {
     favoriteCounter() {
       return this.$store.state.favorite.length
+    }
+  },
+  watch: {
+    favoriteCounter(newValue, oldValue) {
+      newValue > oldValue
+        ? (this.$refs.counter.style.color = '#10ffb2')
+        : (this.$refs.counter.style.color = '#ec1d24')
+
+      setTimeout(() => {
+        this.$refs.counter.style.color = '#6b88a3'
+      }, 300)
     }
   }
 }
@@ -38,6 +48,10 @@ export default {
 
   .router-link-exact-active {
     color: #fff;
+  }
+
+  .counter {
+    transition: color 0.3s ease;
   }
 }
 

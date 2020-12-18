@@ -12,7 +12,12 @@
     </button>
 
     <div class="last-searched-words">
-      <div class="word" v-for="word in lastSearchedWords" :key="word">
+      <div
+        @click="searchAgain(word)"
+        class="word"
+        v-for="word in lastSearchedWords"
+        :key="word"
+      >
         {{ word }}
       </div>
     </div>
@@ -37,10 +42,19 @@ export default {
   methods: {
     searchHeroes() {
       if (!this.searchValue) return
-      this.$store.dispatch('fetchResults', this.searchValue.trim())
+      if (this.$router.currentRoute.path !== '/') {
+        this.$router.push('/')
+      }
+      //   this.$store.dispatch('fetchResults', this.searchValue.trim())
       this.$store.dispatch('fiveSearchWords', this.searchValue.trim())
       this.searchValue = ''
       this.$refs.searchInput.focus()
+    },
+
+    searchAgain(word) {
+      this.searchValue = word
+      this.$refs.searchInput.focus()
+      this.$store.dispatch('organizeWords', word)
     }
   }
 }
@@ -96,6 +110,7 @@ export default {
       padding: 0.1rem 0.4rem;
       background: #ec1d24;
       border-radius: 5px;
+      cursor: pointer;
     }
   }
 }

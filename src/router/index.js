@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import store from '@/store/index'
 
 Vue.use(VueRouter)
 
@@ -16,23 +17,29 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "hero-page" */ '../components/Heroes/hero-page.vue'
-      )
-    // beforeEnter: (to, from, next) => {
-    //   const exists = this.$store.searchResults.find(
-    //     hero => hero.id === to.params.id
-    //   )
-    //   if (exists) {
-    //     next()
-    //   } else {
-    //     next({ name: 'notFound' })
-    //   }
-    // }
+      ),
+    beforeEnter: (to, from, next) => {
+      // ked id zo storu nenajde, otvori notFound stranku
+      const heroes = [...store.state.searchResults, ...store.state.favorites]
+      const exists = heroes.find(hero => hero.id === to.params.id)
+      if (exists) {
+        next()
+      } else {
+        next({ name: 'notFound' })
+      }
+    }
   },
   {
     path: '/favorite',
     name: 'Favorite',
     component: () =>
       import(/* webpackChunkName: "favorite" */ '../views/Favorite.vue')
+  },
+  {
+    path: '/notfound',
+    name: 'notFound',
+    component: () =>
+      import(/* webpackChunkName: "notFound" */ '../views/notFound.vue')
   }
 ]
 

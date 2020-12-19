@@ -32,7 +32,7 @@
         <h5>events:</h5>
         <p>
           {{
-            firstFiveComics(selectedHero.events.items) ||
+            firstFiveEvents(selectedHero.events.items) ||
               'No events for this hero'
           }}
         </p>
@@ -66,9 +66,12 @@ export default {
 
   computed: {
     selectedHero() {
-      return this.$store.state.searchResults.find(
-        hero => hero.id === this.heroId
-      )
+      // vyhlada kliknuteho hrdinu zo search a oblubenych vysledkov na zaklade id.
+      let heros = [
+        ...this.$store.state.searchResults,
+        ...this.$store.state.favorites
+      ]
+      return heros.find(hero => hero.id === this.heroId)
     },
     heroImage() {
       return this.selectedHero.thumbnail.path + '/standard_fantastic.jpg'
@@ -79,7 +82,8 @@ export default {
       return this.$router.go(-1)
     },
 
-    firstFiveComics(comics) {
+    firstFiveEvents(comics) {
+      // vypise 5 poslednych eventov hrdinu
       let string = ''
       comics.map((item, index) => {
         if (index < 5) string += item.name + ', '
@@ -96,11 +100,10 @@ export default {
     },
 
     isFavorite() {
-      return this.$store.state.favorite.some(item => item.id === this.heroId)
+      // vracia true/false podla toho ci je alebo nieje v oblubenych
+      return this.$store.state.favorites.some(item => item.id === this.heroId)
     }
-  },
-
-  mounted() {}
+  }
 }
 </script>
 

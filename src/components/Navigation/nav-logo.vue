@@ -17,10 +17,6 @@
   </router-link>
 </template>
 
-<script>
-export default {}
-</script>
-
 <style lang="scss" scoped>
 .marvel-logo {
   display: flex;

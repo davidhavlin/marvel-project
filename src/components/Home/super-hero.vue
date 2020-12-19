@@ -51,7 +51,8 @@ export default {
       this.$store.dispatch('removeFromFavorite', hero)
     },
     isFavorite(hero) {
-      return this.$store.state.favorite.some(item => item.id === hero.id)
+      // vrati true alebo false podla toho ci je hrdina v oblubenych
+      return this.$store.state.favorites.some(item => item.id === hero.id)
     }
   }
 }

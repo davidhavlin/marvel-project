@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <TheNavigation />
+    <ErrorComp v-if="error" />
     <main class="pages">
       <router-view />
     </main>
@@ -9,10 +10,17 @@
 
 <script>
 import TheNavigation from '@/components/Navigation/TheNavigation.vue'
+import ErrorComp from '@/components/ErrorComp.vue'
 
 export default {
   components: {
-    TheNavigation
+    TheNavigation,
+    ErrorComp
+  },
+  computed: {
+    error() {
+      return this.$store.state.error
+    }
   }
 }
 </script>

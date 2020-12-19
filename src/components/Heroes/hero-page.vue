@@ -60,8 +60,11 @@
 export default {
   data() {
     return {
-      heroId: this.$route.params.id
+      heroId: +this.$route.params.id
     }
+  },
+  mounted() {
+    console.log('z hero pagu: ' + this.$route.params.id)
   },
 
   computed: {

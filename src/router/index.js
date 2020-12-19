@@ -21,7 +21,9 @@ const routes = [
     beforeEnter: (to, from, next) => {
       // ked id zo storu nenajde, otvori notFound stranku
       const heroes = [...store.state.searchResults, ...store.state.favorites]
-      const exists = heroes.find(hero => hero.id === to.params.id)
+      let nieco = +to.params.id
+      const exists = heroes.find(hero => hero.id === nieco)
+      //   console.log(+to.params.id)
       if (exists) {
         next()
       } else {

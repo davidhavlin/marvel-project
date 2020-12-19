@@ -7,79 +7,100 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     allHeros: [],
-    favorite: [],
+    favorites: [],
     searchResults: [],
     lastSearchedWords: [],
-    loading: false
+    loading: false,
+    error: false,
+    firstVisit: true
   },
   mutations: {
-    pushWord(state, array) {
+    setWords(state, array) {
       state.lastSearchedWords = array
     },
-    pushResults(state, array) {
+    setResults(state, array) {
       state.searchResults = array
     },
     pushFavorite(state, hero) {
-      state.favorite.push(hero)
+      state.favorites.push(hero)
     },
-    removeFavorite(state, array) {
-      state.favorite = array
+    setFavorite(state, array) {
+      state.favorites = array
     },
-    setLoading(state) {
-      state.loading = !state.loading
+    setLoading(state, bool) {
+      state.loading = bool
+    },
+    setError(state, bool) {
+      state.error = bool
+    },
+    setFirstVisit(state, bool) {
+      state.firstVisit = bool
     }
   },
   actions: {
     fetchResults(context, word) {
-      context.commit('setLoading')
+      context.commit('setLoading', true)
       const key = process.env.VUE_APP_MARVELAPI
+      // pouzil som tuto url, clovek nemusi zadat presny nazov hrdinu a je tam viac vysledkov
       const url = `https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=${word}&apikey=${key}`
       axios
         .get(url)
         .then(response => {
           const results = response.data.data.results
-          console.log(results)
-
-          context.commit('pushResults', results)
+          context.commit('setFirstVisit', false)
+          context.commit('setResults', results)
         })
         .catch(error => {
-          // handle error
-          console.log(error)
+          // ked nieco zlyha, otvori modal s oknom
+          context.commit('setError', true)
         })
         .then(() => {
-          // always executed
-          context.commit('setLoading')
+          // spusti sa vzdy, ukonci loading
+          context.commit('setLoading', false)
         })
     },
 
-    fiveSearchWords(context, newWord) {
+    lastFiveWords(context, newWord) {
       let oldWords = context.state.lastSearchedWords
-      if (oldWords.indexOf(newWord) !== -1) return
+      if (oldWords.indexOf(newWord) !== -1) {
+        // ked uz tam hladane slovicko je, len ho hodi nakoniec
+        context.dispatch('organizeWords', newWord)
+        return
+      }
 
-      let newArray = []
-      newArray = [...oldWords, newWord]
+      let newArray = [...oldWords, newWord]
 
       if (oldWords.length < 5) {
-        context.commit('pushWord', newArray)
+        // pridavam slova a ked uz ich tam je 5, prve vzdy vyhodim
+        context.commit('setWords', newArray)
       } else {
         newArray.shift()
-        context.commit('pushWord', newArray)
+        context.commit('setWords', newArray)
       }
     },
 
     organizeWords(context, oldWord) {
+      // hladane slovicko ktore sa uz nachadza v historii hladania prehodi na koniec
       let newArray = [...context.state.lastSearchedWords]
       let index = newArray.findIndex(word => word === oldWord)
       newArray.splice(index, 1)
       newArray.push(oldWord)
-      context.commit('pushWord', newArray)
+      context.commit('setWords', newArray)
     },
 
     removeFromFavorite(context, hero) {
-      let newArray = [...context.state.favorite]
+      // vymaze hrdinu z oblubenych hrdinov na zaklade indexu
+      let newArray = [...context.state.favorites]
       let index = newArray.findIndex(item => item.id === hero.id)
       newArray.splice(index, 1)
-      context.commit('removeFavorite', newArray)
+      context.commit('setFavorite', newArray)
+    },
+
+    resetSearch(context) {
+      // resetuje cele vyhladavanie aj s poslednymi hladanymi slovickami
+      context.commit('setResults', [])
+      context.commit('setWords', [])
+      context.commit('setFirstVisit', true)
     }
   },
   modules: {}

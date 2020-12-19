@@ -12,11 +12,13 @@
 export default {
   computed: {
     favoriteCounter() {
-      return this.$store.state.favorite.length
+      // pocet oblubenych hrdinov
+      return this.$store.state.favorites.length
     }
   },
   watch: {
     favoriteCounter(newValue, oldValue) {
+      // ako sa counter meni tak sledujem hodnotu ci je mensia alebo vacsia a podla toho menim farbu
       newValue > oldValue
         ? (this.$refs.counter.style.color = '#10ffb2')
         : (this.$refs.counter.style.color = '#ec1d24')

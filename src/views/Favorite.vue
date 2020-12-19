@@ -19,7 +19,7 @@ export default {
   },
   computed: {
     favoriteHeroes() {
-      return this.$store.state.favorite
+      return this.$store.state.favorites
     }
   }
 }
@@ -28,7 +28,7 @@ export default {
 <style lang="scss" scoped>
 .results-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 200px));
   gap: 1rem;
 }
 

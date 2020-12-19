@@ -51,10 +51,8 @@ export default {
     .nav-container {
       display: flex;
       flex-direction: column;
-      //   justify-content: space-between;
-      //   align-items: center;
       max-width: 1000px;
-      padding: 1rem 1rem;
+      padding: 1.3rem 1rem;
       flex-grow: 1;
     }
   }

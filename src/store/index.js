@@ -40,6 +40,7 @@ export default new Vuex.Store({
   actions: {
     fetchResults(context, word) {
       context.commit('setLoading', true)
+      // api key z env suboru ktory som naschval spristuplnil nech sa da stranka normalne vyskusat
       const key = process.env.VUE_APP_MARVELAPI
       // pouzil som tuto url, clovek nemusi zadat presny nazov hrdinu a je tam viac vysledkov
       const url = `https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=${word}&apikey=${key}`

@@ -4,7 +4,7 @@ node_modules
 
 
 # local env files
-.env
+# .env // cisto len aby sa dal projekt plnohodnotne pozriet
 .env.local
 .env.*.local
 

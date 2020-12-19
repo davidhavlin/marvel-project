@@ -42,12 +42,14 @@
             v-if="selectedHero.urls[0]"
             class="buy-btn"
             :href="selectedHero.urls[0].url"
+            target="_blank"
             >More info</a
           >
           <a
             v-if="selectedHero.urls[2]"
             class="buy-btn"
             :href="selectedHero.urls[2].url"
+            target="_blank"
             >Buy comics</a
           >
         </div>
